@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/home.html}">
+
+<!-- banner layout -->
+<div layout:fragment="banner">
+    <div class="hero__item set-bg" data-setbg="img/hero/bannerMain.jpg" style="border: 1px solid #ebebeb;">
+        <!--        <div class="hero__text">-->
+        <!--            <span>쇼핑몰 만들기</span>-->
+        <!--            <h2>Shopping Mall <br/>쇼핑몰 만들기</h2>-->
+        <!--            <p>쇼핑몰 만들기</p>-->
+        <!--            <a href="#" class="primary-btn">SHOP NOW</a>-->
+        <!--        </div>-->
+    </div>
+</div>
+<!-- banner layout end -->
+
+<!-- content layout -->
+<div layout:fragment="content">
+
+    <!-- Categories Section Begin -->
+    <section class="categories">
+        <div class="container">
+            <div class="row">
+                <div class="categories__slider owl-carousel">
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/T_SHIRT.jpg">
+                            <h5><a href="/shop?cates=T_SHIRT">티셔츠</a></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/HOODIE.jpg">
+                            <h5><a href="/shop?cates=HOODIE">후드티</a></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/SWEATSHIRT.jpg">
+                            <h5><a href="/shop?cates=SWEATSHIRT">맨투맨</a></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/SHIRT.jpg">
+                            <h5><a href="/shop?cates=SHIRT">셔 츠</a></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/SWEATER.jpg">
+                            <h5><a href="/shop?cates=SWEATER">니 트</a></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/OUTER.jpg">
+                            <h5><a href="/shop?cates=OUTER">외 투</a></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/PANTS.jpg">
+                            <h5><a href="/shop?cates=PANTS">바 지</a></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/SHORTS.jpg">
+                            <h5><a href="/shop?cates=SHORTS">반바지</a></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/SHOES.jpg">
+                            <h5><a href="/shop?cates=SHOES">신 발</a></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/HAT.jpg">
+                            <h5><a href="/shop?cates=HAT">모 자</a></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="img/categories/BAG.jpg">
+                            <h5><a href="/shop?cates=BAG">가 방</a></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Categories Section End -->
+
+    <!-- Featured Section Begin -->
+    <section class="featured spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>Season Products</h2>
+                    </div>
+                    <div class="featured__controls">
+                        <ul>
+                            <li class="active" data-filter="*">All</li>
+                            <li data-filter=".spring">Spring</li>
+                            <li data-filter=".summer">Summer</li>
+                            <li data-filter=".autumn">Autumn</li>
+                            <li data-filter=".winter">Winter</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row featured__filter">
+                <div class="col-lg-3 col-md-4 col-sm-6 mix spring autumn">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-1.jpg">
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="#">데일리 오버핏 무지 라운드 맨투맨</a></h6>
+                            <h5>19,000원</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix spring autumn winter">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-2.jpg">
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="#">하트 헤르츠 그래픽 후드</a></h6>
+                            <h5>34,000원</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix summer">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="#">제리 프린팅 오버핏 반팔티</a></h6>
+                            <h5>23,000원</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix summer">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-4.jpg">
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="#">데일리 트레이닝 밴딩 반바지 1+1</a></h6>
+                            <h5>28,000원</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix spring summer autumn winter">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="#">중청 와이드 청바지</a></h6>
+                            <h5>35,000원</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix spring autumn winter">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="#">뉴욕 소프트 특양면 후드티</a></h6>
+                            <h5>24,000원</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix spring autumn winter">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="#">캐주얼 롱 트렌치코트</a></h6>
+                            <h5>42,000원</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix winter">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="#">엠보 패딩 겨울 숏 아우터</a></h6>
+                            <h5>50,000원</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Featured Section End -->
+
+    <!-- Banner Begin -->
+    <div class="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="banner__pic">
+                        <img src="img/banner/banner-1.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="banner__pic">
+                        <img src="img/banner/banner-2.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Banner End -->
+
+    <!-- Latest Product Section Begin -->
+    <section class="latest-product spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="latest-product__text">
+                        <h4>Latest Products</h4>
+                        <div class="latest-product__slider owl-carousel">
+                            <div class="latest-prdouct__slider__item">
+                                <th:block th:each="item, status: ${items}" th:if="${status.index < 3}">
+                                    <a th:href="'/shop/0?searchQuery='+ ${item.itemNm} +'&minPrice=' + ${item.price} + '&maxPrice=' + ${item.price}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <div class="product__item__pic set-bg" th:attr="data-setbg=@{${item.imgUrl}}" th:data-item-id="${item.id}" style="width: 110px; height: 110px; cursor: pointer; border: 1px solid #dedede;"></div>
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>[[${item.itemNm}]]</h6>
+                                            <span>[[${item.price}]]</span>
+                                        </div>
+                                    </a>
+                                </th:block>
+                            </div>
+                            <div class="latest-prdouct__slider__item">
+                                <th:block th:each="item, status: ${items}" th:if="${status.index >= 3 and status.index <= 5}">
+                                    <a th:href="'/shop/0?searchQuery='+ ${item.itemNm} +'&minPrice=' + ${item.price} + '&maxPrice=' + ${item.price}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <div class="product__item__pic set-bg" th:attr="data-setbg=@{${item.imgUrl}}" th:data-item-id="${item.id}" style="width: 110px; height: 110px; cursor: pointer; border: 1px solid #dedede;"></div>
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>[[${item.itemNm}]]</h6>
+                                            <span>[[${item.price}]]</span>
+                                        </div>
+                                    </a>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="latest-product__text">
+                        <h4>Top Rated Products</h4>
+                        <div class="latest-product__slider owl-carousel">
+                            <div class="latest-prdouct__slider__item">
+                                <th:block th:each="item, status: ${items}" th:if="${status.index < 3}">
+                                    <a th:href="'/shop/0?searchQuery='+ ${item.itemNm} +'&minPrice=' + ${item.price} + '&maxPrice=' + ${item.price}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <div class="product__item__pic set-bg" th:attr="data-setbg=@{${item.imgUrl}}" th:data-item-id="${item.id}" style="width: 110px; height: 110px; cursor: pointer; border: 1px solid #dedede;"></div>
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>[[${item.itemNm}]]</h6>
+                                            <span>[[${item.price}]]</span>
+                                        </div>
+                                    </a>
+                                </th:block>
+                            </div>
+                            <div class="latest-prdouct__slider__item">
+                                <th:block th:each="item, status: ${items}" th:if="${status.index >= 3 and status.index <= 5}">
+                                    <a th:href="'/shop/0?searchQuery='+ ${item.itemNm} +'&minPrice=' + ${item.price} + '&maxPrice=' + ${item.price}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <div class="product__item__pic set-bg" th:attr="data-setbg=@{${item.imgUrl}}" th:data-item-id="${item.id}" style="width: 110px; height: 110px; cursor: pointer; border: 1px solid #dedede;"></div>
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>[[${item.itemNm}]]</h6>
+                                            <span>[[${item.price}]]</span>
+                                        </div>
+                                    </a>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="latest-product__text">
+                        <h4>Review Products</h4>
+                        <div class="latest-product__slider owl-carousel">
+                            <div class="latest-prdouct__slider__item">
+                                <th:block th:each="item, status: ${items}" th:if="${status.index < 3}">
+                                    <a th:href="'/shop/0?searchQuery='+ ${item.itemNm} +'&minPrice=' + ${item.price} + '&maxPrice=' + ${item.price}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <div class="product__item__pic set-bg" th:attr="data-setbg=@{${item.imgUrl}}" th:data-item-id="${item.id}" style="width: 110px; height: 110px; cursor: pointer; border: 1px solid #dedede;"></div>
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>[[${item.itemNm}]]</h6>
+                                            <span>[[${item.price}]]</span>
+                                        </div>
+                                    </a>
+                                </th:block>
+                            </div>
+                            <div class="latest-prdouct__slider__item">
+                                <th:block th:each="item, status: ${items}" th:if="${status.index >= 3 and status.index <= 5}">
+                                    <a th:href="'/shop/0?searchQuery='+ ${item.itemNm} +'&minPrice=' + ${item.price} + '&maxPrice=' + ${item.price}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <div class="product__item__pic set-bg" th:attr="data-setbg=@{${item.imgUrl}}" th:data-item-id="${item.id}" style="width: 110px; height: 110px; cursor: pointer; border: 1px solid #dedede;"></div>
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>[[${item.itemNm}]]</h6>
+                                            <span>[[${item.price}]]</span>
+                                        </div>
+                                    </a>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Latest Product Section End -->
+
+</div>
+<!-- content layout end -->
+
+<!-- js layout  -->
+<script layout:fragment="script" th:inline="javascript">
+
+    $(document).ready(function(){
+        // 클래스 이름을 변경합니다.
+        $('.hero-normal').removeClass('hero-normal').addClass('hero');
+    });
+
+</script>
+
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 회원가입 페이지</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/loginform.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <!-- favicon -->
+    <link rel="icon" href="/img/favicon.png" type="image/png">
+    <!-- 제이쿼리 -->
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+
+    <style>
+        .back {
+            position: absolute; /* 절대 위치 설정 */
+            top: 20px; /* 원하는 위치 조절 */
+            left: 20px; /* 원하는 위치 조절 */
+            z-index: 9999; /* 다른 요소 위로 겹쳐지도록 설정 */
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #fff; /* 흰색으로 설정 */
+            font-weight: bold;
+            transition: color 0.3s; /* 색상 변화에 대한 전환 효과 설정 */
+            font-size: 20px; /* 원하는 크기로 설정 */
+        }
+
+        .back-link:hover {
+            color: #000; /* 마우스 오버 시 검은색으로 변경 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-structor">
+        <div class="back">
+            <a href="/" class="back-link"><i class="fa fa-arrow-left"></i></a>
+        </div>
+
+        <div class="login">
+            <h2 class="form-title" id="login"><span>or</span>Log in</h2>
+            <form role="form" method="post" action="/member/login">
+                <div class="form-holder">
+                    <input type="email" name="email" class="input" placeholder="Email" />
+                    <input type="password" name="password" class="input" placeholder="Password" />
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                </div>
+                <p class="error" th:if="${loginErrorMsg}" th:text="${loginErrorMsg}" style="font-size: 12px; color: red; text-align: center;"></p>
+                <button class="submit-btn">Log in</button>
+            </form>
+        </div>
+
+        <div class="signup slide-up">
+            <div class="center">
+                <h2 class="form-title" id="signup"><span>or</span>Sign up</h2>
+                <form action="/member/new" role="form" method="post" th:object="${memberFormDto}">
+                    <div class="form-holder">
+                        <input type="email" th:field="*{email}" class="input" placeholder="> 이메일을 입력해주세요" required>
+                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError" style="font-size: 10px; color: red; text-align: center;">Incorrect data</p>
+                        <input type="password" th:field="*{password}" class="input" placeholder="> 비밀번호 입력" autocomplete="off" required>
+                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="fieldError" style="font-size: 10px; color: red; text-align: center;">Incorrect data</p>
+                        <input type="text" th:field="*{name}" class="input" placeholder="> 이름을 입력해주세요" required>
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="fieldError" style="font-size: 10px; color: red; text-align: center;">Incorrect data</p>
+                        <input type="text" th:field="*{address}" class="input" placeholder="> 주소를 입력해주세요" required>
+                        <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="fieldError" style="font-size: 10px; color: red; text-align: center;">Incorrect data</p>
+                        <div class="input">
+                            <input type="radio" id="userMember" th:field="*{role}" value="USER" required>
+                            <label for="userMember" style="font-size: 12px; color: gray; text-align: center;">일반 회원 </label>
+                            <input type="radio" id="adminMember" th:field="*{role}" value="ADMIN" required>
+                            <label for="adminMember" style="font-size: 12px; color: gray; text-align: center;">판매자</label>
+                        </div>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    </div>
+                    <button class="submit-btn">Sign up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script th:inline="javascript">
+
+    const loginBtn = document.getElementById('login');
+    const signupBtn = document.getElementById('signup');
+
+    signupBtn.addEventListener('click', (e) => {
+        let parent = e.target.parentNode.parentNode;
+        Array.from(e.target.parentNode.parentNode.classList).find((element) => {
+            if(element !== "slide-up") {
+                parent.classList.add('slide-up')
+            }else{
+                loginBtn.parentNode.classList.add('slide-up')
+                parent.classList.remove('slide-up')
+            }
+        });
+    });
+
+    loginBtn.addEventListener('click', (e) => {
+        let parent = e.target.parentNode;
+        Array.from(e.target.parentNode.classList).find((element) => {
+            if(element !== "slide-up") {
+                parent.classList.add('slide-up')
+            }else{
+                signupBtn.parentNode.parentNode.classList.add('slide-up')
+                parent.classList.remove('slide-up')
+            }
+        });
+    });
+
+    $(document).ready(function(){
+
+        //가입 처리시 이메일이 중복일때
+        var errorMessage = [[${errorMessage}]];
+        if(errorMessage != null){
+            alert(errorMessage);
+        }
+        //회원가입 실패시
+        var validMessage = [[${validMessage}]];
+        if(validMessage != null){
+            alert(validMessage);
+        }
+        //회원가입 성공시
+        var successMessage = [[${success}]]
+        if(successMessage != null){
+            alert(successMessage);
+            //input 박스에 있는 값 지우기
+            $('input[type="email"]').val('');
+            $('input[type="password"]').val('');
+            $('input[type="text"]').val('');
+        }
+
+
+    });
+
+</script>
+
+</html>

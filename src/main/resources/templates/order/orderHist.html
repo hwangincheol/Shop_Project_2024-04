@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/home.html}">
+
+<!-- content layout -->
+<div layout:fragment="content">
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/img/33.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2 id="info">주문 내역</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <br><br>
+
+    <div class="container">
+
+        <th:block th:if="${not #lists.isEmpty(orders.getContent())}">
+            <div th:each="order : ${orders.getContent()}">
+                <div class="d-flex mb-3 align-self-center" style="margin-top: 16px;">
+                    <div class="ml-3">
+                        <div class="row">
+                            <div  style="margin-right: 40px;">
+                                <h4 th:text="'(주문 번호 : ' + ${order.orderId} + ')'"></h4>
+                            </div>
+                            <div style="margin-right: 20px;">
+                                <h4 th:text="${order.orderDate} + ' 주문'"></h4>
+                            </div>
+                            <div>
+                                <th:block th:if="${order.orderStatus == T(org.zerock.shop.constant.OrderStatus).ORDER}">
+                                    <button type="button" class="btn btn-outline-secondary" th:value="${order.orderId}" onclick="confirmCancel(this.value)">주문 취소</button>
+                                    <button type="button" class="btn btn-outline-secondary" th:value="${order.orderId}" onclick="confirmCheck(this.value)">구매 확정</button>
+                                    <!--  15 행 함수 실행                   -->
+                                </th:block>
+                                <th:block th:if="${order.orderStatus == T(org.zerock.shop.constant.OrderStatus).CANCEL}">
+                                    <h4>(취소 완료)</h4>
+                                </th:block>
+                                <th:block th:if="${order.orderStatus == T(org.zerock.shop.constant.OrderStatus).CHECK}">
+                                    <h4>(구매 확정)</h4>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card d-flex">
+                    <div th:each="orderItem : ${order.orderItemDtoList}" class="d-flex mb-3" style="margin-top: 16px; margin-left: 16px;">
+                        <div class="repImgDiv">
+                            <img th:src="${orderItem.imgUrl}" class = "rounded repImg" th:alt="${orderItem.itemNm}" style="width: 110px; height: auto; border: 1px solid #dcdcdc;">
+                        </div>
+                        <div class="align-self-center w-75" style="margin-left: 16px;">
+                            <span th:text="${orderItem.itemNm}" class="fs24 font-weight-bold" style="font-size: 20px; font-family: SansFont"></span>
+                            <div class="fs18 font-weight-light">
+                                <span th:text="${orderItem.orderPrice} +'원'" style="font-size: 16px; font-family: SansLightFont"></span>
+                                <span th:text="${orderItem.count} +'개'" style="font-size: 16px; font-family: SansLightFont"></span>
+                            </div>
+                        </div>
+
+                        <div th:if="${order.orderStatus == T(org.zerock.shop.constant.OrderStatus).CHECK && orderItem.reviewCheck == false}" style="margin-top: 35px;">
+                            <button type="button" class="btn btn-outline-secondary"
+                                    onclick="writeReview(this.getAttribute('data-orderId'), this.getAttribute('data-itemId'), this.getAttribute('data-itemNm'), this.getAttribute('data-imgUrl'), this.getAttribute('data-orderPrice'))"
+                                    th:data-orderId="${order.orderId}" th:data-itemId="${orderItem.itemId}" th:data-itemNm="${orderItem.itemNm}"
+                                    th:data-imgUrl="${orderItem.imgUrl}" th:data-orderPrice="${orderItem.orderPrice}">리뷰 작성</button>
+                        </div>
+                        <div th:if="${order.orderStatus == T(org.zerock.shop.constant.OrderStatus).CHECK && orderItem.reviewCheck == true}" style="margin-top: 35px;">
+                            <button type="button" class="btn btn-outline-secondary" style="background-color: #426fcc; color: white; cursor: auto;" disabled>작성 완료</button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </th:block>
+        <th:block th:if="${#lists.isEmpty(orders.getContent())}">
+            <br><div class="text-center" style="font-family: SansLightFont; font-size: 22px;">주문내역이 없습니다.</div><br><br>
+        </th:block>
+
+        <div class="product__pagination" th:with="start=${(orders.number/maxPage)*maxPage + 1}, end=(${(orders.totalPages == 0) ? 1 : (start + (maxPage - 1) < orders.totalPages ? start + (maxPage - 1) : orders.totalPages)})" style="padding-bottom: 10px;">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" th:classappend="${orders.first} ? 'disabled'">
+                    <a th:if="${!orders.first}" th:onclick="'javascript:page(' + ${orders.number - 1} + ')'" aria-label='Previous' class="page-link">
+                        <span aria-hidden='true'><i class="fa fa-long-arrow-left"></i></span>
+                    </a>
+                </li>
+
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${orders.number eq (page - 1)} ? 'active' : ''">
+                    <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                </li>
+
+                <li class="page-item" th:classappend="${orders.last} ? 'disabled'">
+                    <a th:if="${!orders.last}" th:onclick="'javascript:page(' + ${orders.number + 1} + ')'" aria-label='Next' class="page-link">
+                        <span aria-hidden='true'><i class="fa fa-long-arrow-right"></i></span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div><br>
+
+    <!-- 모달 -->
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left: 20px;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <section class="product-details spad" style=" padding-top: 0px; padding-bottom: 50px;">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="product__details__pic">
+                                        <div class="product__details__pic__item">
+                                            <img class="product__details__pic__item--large" src="" alt="">
+                                        </div>
+                                        <div class="product__details__pic__slider owl-carousel">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="product__details__text" style="margin-left: 30px;">
+                                        <div class="product__details__sellStatus" style="margin-bottom: 10px;"></div>
+                                        <h3 class="product__details__name" style="margin-top: 30px;"></h3>
+                                        <div class="product__details__rating" style="display: inline-block; margin-right: 5px;">
+                                        </div>
+                                        <span class="starCount"></span>
+                                        <div class="product__details__price"></div>
+                                        <ul style="padding-top: 20px; margin-top: 0px;">
+                                            <li><b>카테고리 : </b> <span class="product__details__category"></span></li>
+                                            <li><b>색상 : </b> <span class="product__details__color"></span></li>
+                                            <li><b>사이즈 : </b> <span class="product__details__size"></span></li>
+                                        </ul>
+                                        <p class="product__details__content"></p>
+                                        <ul style="padding-top: 30px; margin-top: 30px;"></ul>
+                                        <div><textarea class="form-control" id="review_content" name="review_content" placeholder="이 상품에 대한 솔직한 리뷰를 남겨주세요." required></textarea></div>
+                                        <div class="row" style="margin-top: 15px;">
+                                            <div class="star-rating" style="margin-left: 80px">
+                                                <input type="radio" id="5-stars" name="rating" value="5" />
+                                                <label for="5-stars" class="star">&#9733;</label>
+                                                <input type="radio" id="4-stars" name="rating" value="4" />
+                                                <label for="4-stars" class="star">&#9733;</label>
+                                                <input type="radio" id="3-stars" name="rating" value="3" />
+                                                <label for="3-stars" class="star">&#9733;</label>
+                                                <input type="radio" id="2-stars" name="rating" value="2" />
+                                                <label for="2-stars" class="star">&#9733;</label>
+                                                <input type="radio" id="1-star" name="rating" value="1" />
+                                                <label for="1-star" class="star">&#9733;</label>
+                                            </div>
+                                            <a class="primary-btn" onclick="" style="margin-left: 80px;">작성 하기</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- content layout end -->
+
+
+
+
+
+<!-- 사용자 스크립트 추가 -->
+<script layout:fragment="script" th:inline="javascript">
+
+    var item_id = "";
+    var order_id = "";
+
+    $(document).ready(function() {
+
+        // 모달이 열릴 때 실행되는 함수
+        $('.modal').on('shown.bs.modal', function () {
+            // 별점 초기화
+            $('.star-rating input:radio').prop('checked', false);
+            // 리뷰 입력란 내용 초기화
+            $('#board_content').val('');
+        });
+
+        //리뷰 등록
+        $('.primary-btn').click(function() {
+
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var url = "/review/new";
+            var rating = $('input[name="rating"]:checked').val();   // 선택된 별점 값 가져오기
+            var reviewContent = $('#review_content').val(); // 리뷰 내용 가져오기
+
+            var paramData = {
+                star: rating,
+                content: reviewContent,
+                item_id: item_id,
+                order_id: order_id
+            };
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url      : url,
+                type     : "POST",
+                contentType : "application/json",
+                data     : param,
+                beforeSend : function(xhr){
+                    /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType : "json",
+                cache   : false,
+                success  : function(result, status){
+                    alert("리뷰가 등록되었습니다.");
+                    location.href='/orders';  // 주문 성공시 구매 이력 페이지로 이동
+                },
+                error : function(jqXHR, status, error){
+                    if(jqXHR.status == '401'){
+                        alert('로그인 후 이용해주세요');
+                        location.href='/member/login';
+                    } else{
+                        alert(jqXHR.responseText);
+                    }
+
+                }
+            });
+
+        });
+
+    });
+
+    //리뷰 작성 모달창 띄우기
+    function writeReview(orderId, itemId, itemNm, imgUrl, orderPrice) {
+        $(".modal-title").text(itemId);
+        $(".product__details__name").text(itemNm);
+        $(".product__details__pic__item--large").attr("src", imgUrl);
+        $(".product__details__price").text(orderPrice + " 원");
+
+        item_id = itemId;
+        order_id = orderId;
+
+        //전달 받은 아이디 값을통해 해당 아이디의 정보를 가져오기
+        var paramData = { itemId: itemId };
+        $.ajax({
+            url      : "/item/dtl",
+            type     : "GET",
+            contentType : "application/json",   // 서버에 보낼 형식을 JSON으로 지정
+            data     : paramData,
+            dataType : "json",                  // 결과값으로 받을 데이터 타입 json으로 설정
+            cache   : false,
+            success  : function(result) {    // 성공시 처리
+                var item = result.item;
+                var review = result.review;
+                $(".product__details__category").text(item.category);
+                $(".product__details__color").text(item.color);
+                $(".product__details__size").text(item.size);
+
+                $(".product__details__rating").empty(); // 이전에 추가된 별표시를 지웁니다.
+                // 별점 설정에 필요한 클래스명들
+                var fullStarClass = 'fa fa-star';
+                var halfStarClass = 'fa fa-star-half-o';
+                var emptyStarClass = 'fa fa-star-o empty';
+                if (review.length > 0) {
+                    var ratingValue = review[0].starAvg; // 서버에서 받은 평균 별점 값
+                    var roundedRating = Math.floor(ratingValue); // 정수 부분만 가져옴
+                    var decimalPart = ratingValue - roundedRating; // 소수 부분을 구함
+                    var hasHalfStar = decimalPart >= 0.5; // 반 별 표시 여부
+                    // 별표시를 조정하여 설정
+                    for (var i = 0; i < roundedRating; i++) {
+                        $(".product__details__rating").append('<i class="' + fullStarClass + '"></i>'); // 꽉 찬 별 추가
+                    }
+                    if (hasHalfStar) {
+                        $(".product__details__rating").append('<i class="' + halfStarClass + '"></i>'); // 반 별 추가
+                    }
+                    var emptyStars = 5 - roundedRating - (hasHalfStar ? 1 : 0); // 빈 별 개수
+                    for (var j = 0; j < emptyStars; j++) {
+                        $(".product__details__rating").append('<i class="' + emptyStarClass + '"></i>'); // 빈 별 추가
+                    }
+
+                    $(".starCount").text(ratingValue.toFixed(1) + "  (" + review.length + " reviews)");
+
+                } else {
+                    $(".starCount").text("0.0  (0 reviews)");
+                    for (var k = 0; k < 5; k++) {
+                        $(".product__details__rating").append('<i class="' + emptyStarClass + '"></i>'); // 빈 별 추가
+                    }
+                }
+
+                $(".modal").modal("show");
+            }
+        });
+
+    }
+
+
+    //주문
+
+    function confirmCancel(orderId) {
+        var confirmed = confirm("주문을 취소하시겠습니까?");
+        if (confirmed) {
+            cancelOrder(orderId); // 확인을 클릭한 경우 주문 취소 함수 호출
+        }
+    }
+
+    function confirmCheck(orderId) {
+        var confirmed = confirm("구매를 확정하시겠습니까?");
+        if (confirmed) {
+            checkOrder(orderId);
+        }
+    }
+
+    function cancelOrder(orderId) {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        var url = "/order/" + orderId + "/cancel";  // 주문 취소용 url 생성
+        var paramData = {                           // 취소할 주문 번호를 파라미터로 전달
+            orderId : orderId
+        };
+
+        var param = JSON.stringify(paramData);
+
+        $.ajax({
+            url      : url,
+            type     : "POST",
+            contentType : "application/json",
+            data     : param,
+            beforeSend : function(xhr){
+                /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+                xhr.setRequestHeader(header, token);
+            },
+            dataType : "json",
+            cache   : false,
+            success  : function(result, status){    // 취소 성공시 현재 페이지롤 redirect
+                alert("주문이 취소되었습니다.");
+                location.href='/orders/' + [[${page}]];
+            },
+            error : function(jqXHR, status, error){
+                if(jqXHR.status == '401'){
+                    alert('로그인 후 이용해주세요');
+                    location.href='/member/login';
+                } else{
+                    alert(jqXHR.responseText);
+                }
+            }
+        });
+    }
+
+    function checkOrder(orderId) {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        var url = "/order/" + orderId + "/check";
+        var paramData = {
+            orderId : orderId
+        };
+
+        var param = JSON.stringify(paramData);
+
+        $.ajax({
+            url      : url,
+            type     : "POST",
+            contentType : "application/json",
+            data     : param,
+            beforeSend : function(xhr){
+                /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+                xhr.setRequestHeader(header, token);
+            },
+            dataType : "json",
+            cache   : false,
+            success  : function(result, status){    // 취소 성공시 현재 페이지롤 redirect
+                alert("구매가 확정되었습니다.");
+                location.href='/orders/' + [[${page}]];
+            },
+            error : function(jqXHR, status, error){
+                if(jqXHR.status == '401'){
+                    alert('로그인 후 이용해주세요');
+                    location.href='/member/login';
+                } else{
+                    alert(jqXHR.responseText);
+                }
+            }
+        });
+    }
+
+
+    function page(page){
+        location.href="/orders/" + page;
+    }
+
+</script>
+
+
+</html>
