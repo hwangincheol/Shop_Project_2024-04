@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/home.html}">
+
+<!-- content layout -->
+<div layout:fragment="content">
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/img/33.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>SHOP</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Section Begin -->
+    <section class="product spad" style="padding-top: 50px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-5">
+                    <div class="sidebar">
+                        <form th:action="@{'/shop/' + ${items.number}}" role="form" method="get" th:object="${items}">
+                            <div class="sidebar__item">
+                                <h4>Category</h4>
+                                <ul>
+                                    <li><label class="category-toggle" id="T_SHIRT">티셔츠</label></li>
+                                    <li><label class="category-toggle" id="HOODIE">후드티</label></li>
+                                    <li><label class="category-toggle" id="SWEATSHIRT">맨투맨</label></li>
+                                    <li><label class="category-toggle" id="SHIRT">셔 츠</label></li>
+                                    <li><label class="category-toggle" id="SWEATER">니 트</label></li>
+                                    <li><label class="category-toggle" id="OUTER">외 투</label></li>
+                                    <li><label class="category-toggle" id="PANTS">바 지</label></li>
+                                    <li><label class="category-toggle" id="SHORTS">반바지</label></li>
+                                    <li><label class="category-toggle" id="SHOES">신 발</label></li>
+                                    <li><label class="category-toggle" id="HAT">모 자</label></li>
+                                    <li><label class="category-toggle" id="BAG">가 방</label></li>
+                                </ul>
+                            </div>
+                            <div class="sidebar__item">
+                                <h4>Price</h4>
+                                <div class="price-range-wrap">
+                                    <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                         data-min="0" data-max="100000">
+                                        <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                        <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                        <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                    </div>
+                                    <div class="range-slider">
+                                        <div class="price-input" style="width: 500px">
+                                            <input type="text" id="minamount" readonly>
+                                            <input type="text" id="maxamount" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sidebar__item sidebar__item__color--option">
+                                <h4>Popular Colors</h4>
+                                <div class="sidebar__item__color sidebar__item__color--white">
+                                    <label id="WHITE" class="color-toggle">White</label>
+                                </div>
+                                <div class="sidebar__item__color sidebar__item__color--yellow">
+                                    <label id="YELLOW" class="color-toggle">Yellow</label>
+                                </div>
+                                <div class="sidebar__item__color sidebar__item__color--red">
+                                    <label id="RED" class="color-toggle">Red</label>
+                                </div>
+                                <div class="sidebar__item__color sidebar__item__color--black">
+                                    <label id="BLACK" class="color-toggle">Black</label>
+                                </div>
+                                <div class="sidebar__item__color sidebar__item__color--blue">
+                                    <label id="BLUE" class="color-toggle">Blue</label>
+                                </div>
+                                <div class="sidebar__item__color sidebar__item__color--green">
+                                    <label id="GREEN" class="color-toggle">Green</label>
+                                </div>
+                            </div>
+
+                            <div class="sidebar__item">
+                                <h4>Popular Size</h4>
+                                <div class="sidebar__item__size" style="width: 100px">
+                                    <label class="size-toggle" id="FREE">
+                                        Free
+                                    </label>
+                                </div>
+                                <div class="sidebar__item__size" style="width: 100px">
+                                    <label class="size-toggle" id="LARGE">
+                                        Large
+                                    </label>
+                                </div>
+                                <div class="sidebar__item__size" style="width: 100px">
+                                    <label class="size-toggle" id="MEDIUM">
+                                        Medium
+                                    </label>
+                                </div>
+                                <div class="sidebar__item__size" style="width: 100px">
+                                    <label class="size-toggle" id="SMALL">
+                                        Small
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-inline justify-content-center" th:object="${itemSearchDto}" style="margin-bottom: 40px; margin-right: 15px;">
+                                <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
+                                    <option value="all">전체기간</option>
+                                    <option value="1d">1일</option>
+                                    <option value="1w">1주</option>
+                                    <option value="1m">1개월</option>
+                                    <option value="6m">6개월</option>
+                                </select>
+                                <select th:field="*{searchSellStatus}" class="form-control" style="width: auto; margin-left: 10px;">
+                                    <option value="">판매상태(전체)</option>
+                                    <option value="SELL">판매</option>
+                                    <option value="SOLD_OUT">품절</option>
+                                </select>
+                                <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="Search..." style="width: 179px; margin-top: 10px; margin-right: 10px; margin-top: 35px;">
+                                <button id="searchBtn" type="submit" class="btn btn-primary" style="margin-top: 10px; margin-top: 35px;">검색</button>
+                            </div>
+                        </form>
+                        <div class="sidebar__item">
+                            <div class="latest-product__text">
+                                <h4>Latest Products</h4>
+                                <div class="latest-product__slider owl-carousel">
+                                    <div class="latest-prdouct__slider__item">
+                                        <!-- 포문 시작 -->
+                                        <th:block th:each="item, status: ${items.getContent()}" th:if="${status.index < 3}">
+                                            <a th:href="'#'" class="latest-product__item">
+                                                <div class="latest-product__item__pic">
+                                                    <div class="product__item__pic set-bg" th:attr="data-setbg=@{${item.imgUrl}}" th:data-item-id="${item.id}" style="width: 110px; height: 110px; cursor: pointer; border: 1px solid #dedede;"></div>
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>[[${item.itemNm}]]</h6>
+                                                    <span>[[${item.price}]]</span>
+                                                </div>
+                                            </a>
+                                        </th:block>
+                                        <!-- 포문 끝 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-7">
+                    <div class="product__discount" style="padding-bottom: 0px;">
+                        <div class="section-title product__discount__title" style="margin-bottom: 10px;">
+                            <h2>Products</h2>
+                        </div>
+                    </div>
+                    <div class="filter__item">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5">
+                                <div class="filter__sort">
+                                    <span>Sort By</span>
+                                    <select>
+                                        <option value="0">Default</option>
+                                        <option value="0">Default</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="filter__found">
+                                    <h6><span>[[${items.getTotalElements()}]]</span> Products found</h6>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-3">
+                                <div class="filter__option">
+                                    <span class="icon_grid-2x2"></span>
+                                    <span class="icon_ul"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6" th:each="item, status: ${items.getContent()}">
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg" th:attr="data-setbg=@{${item.imgUrl}}" th:data-item-id="${item.id}" style="cursor: pointer; border: 1px solid #dedede;">
+                                    <ul class="product__item__pic__hover">
+                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6><a href="#" style="font-family: SansLightFont; font-weight: 700;">[[${item.itemNm}]]</a></h6>
+                                    <h5>[[${item.price}]]원</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form th:action="@{'/shop/'}" role="form" method="get" th:object="${items}">
+                        <div class="product__pagination" th:with="start=${(items.number/maxPage)*maxPage + 1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})" >
+                            <ul class="pagination justify-content-center">
+
+                                <li class="page-item" th:classappend="${items.first} ? 'disabled'">
+                                    <a th:if="${!items.first}" th:onclick="'javascript:page(' + ${items.number - 1} + ')'" aria-label='Previous' class="page-link">
+                                        <span aria-hidden='true'><i class="fa fa-long-arrow-left"></i></span>
+                                    </a>
+                                </li>
+
+                                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${items.number eq (page - 1)} ? 'active' : ''">
+                                    <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                                </li>
+
+                                <li class="page-item" th:classappend="${items.last} ? 'disabled'">
+                                    <a th:if="${!items.last}" th:onclick="'javascript:page(' + ${items.number + 1} + ')'" aria-label='Next' class="page-link">
+                                        <span aria-hidden='true'><i class="fa fa-long-arrow-right"></i></span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Section End -->
+
+    <!-- 모달 아이템 상세정보 보기용 -->
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left: 20px;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <section class="product-details spad" style=" padding-top: 0px; padding-bottom: 50px;">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="product__details__pic">
+                                        <div class="product__details__pic__item">
+                                            <img class="product__details__pic__item--large" src="" alt="">
+                                        </div>
+                                        <div class="product__details__pic__slider owl-carousel">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="product__details__text" style="margin-left: 40px;">
+                                        <div class="product__details__sellStatus" style="margin-bottom: 10px;"></div>
+                                        <h3 class="product__details__name" style="margin-top: 30px;"></h3>
+                                        <div class="product__details__rating" style="display: inline-block; margin-right: 5px;">
+                                        </div>
+                                        <span class="starCount"></span>
+                                        <div class="product__details__price"></div>
+                                        <p class="product__details__content"></p>
+                                        <p class="totalPrice"></p>
+                                        <div class="product__details__quantity">
+                                            <div class="quantity">
+                                                <div class="pro-qty">
+                                                    <input type="text" value="1" class="count" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="primary-btn" style="background: #6AB963" onclick="addCart()">장바구니 담기</a>
+                                        <a class="primary-btn" onclick="order()">구매 하기</a>
+                                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                        <ul>
+                                            <li><b>카테고리 : </b> <span class="product__details__category"></span></li>
+                                            <li><b>색상 : </b> <span class="product__details__color"></span></li>
+                                            <li><b>사이즈 : </b> <span class="product__details__size"></span></li>
+                                            <li><b>재고 : </b> <span class="product__details__stockNumber"></span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="product__details__tab">
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                                   aria-selected="true" style="font-size: 18px;">Description</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                                   aria-selected="false" style="font-size: 18px;">Information</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                                   aria-selected="false" style="font-size: 18px;">Reviews</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                                <div class="product__details__tab__desc" style="margin-left: 60px; margin-right: 60px;">
+                                                    <h6 style="font-family: SansFont, sans-serif;">Products Description - 상품 설명</h6>
+                                                    <p class="product__details__content"></p><br>
+                                                    <div class="products_description"></div>
+
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                                <div class="product__details__tab__desc" style="margin-left: 60px; margin-right: 60px;">
+                                                    <h6 style="font-family: SansFont, sans-serif;">Products Infomation - 상품 상세정보</h6>
+                                                    <ul style="padding: 15px; margin-bottom: 30px; background-color: #f1f8ff; border-radius: 20px; list-style-type: none;">
+                                                        <li><b>카테고리 : </b> <span class="product__details__category"></span></li>
+                                                        <li><b>색상 : </b> <span class="product__details__color"></span></li>
+                                                        <li><b>사이즈 : </b> <span class="product__details__size"></span></li>
+                                                        <li><b>재고 : </b> <span class="product__details__stockNumber"></span></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                                <div class="product__details__tab__desc" style="margin-left: 60px; margin-right: 60px;">
+                                                    <h6 class="productReview" style="font-family: SansFont, sans-serif;"></h6>
+                                                    <div id="reviews">
+                                                        <ul class="reviews" style="margin-top: 20px;">
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- content layout end -->
+
+
+<!-- js layout  -->
+<script layout:fragment="script" th:inline="javascript">
+
+    //주문
+    function order(){
+        // csrf 처리용
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        var url = "/order";
+        var paramData = {
+            itemId : $(".modal-title").text(),
+            count : $(".count").val()
+        };
+        // 주문할 상품의 아이디와 주문 수량 데이터를 전달 할 객체 생성
+
+        var param = JSON.stringify(paramData);
+        // 서버에 보낼 주문 데이터를 JSON으로 변환
+        // AJAX 주문 로직을 비동기 방식으로 호출(새로고침 없이 필요한 부분만 불러와 사용)
+        $.ajax({
+            url      : url,
+            type     : "POST",
+            contentType : "application/json",   // 서버에 보낼 형식을 JSON으로 지정
+            data     : param,                   // param k로 전달
+            beforeSend : function(xhr){         // 전송 전에 csrf 값을 헤더에 설정
+                /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+                xhr.setRequestHeader(header, token);
+            },
+            dataType : "json",                  // 결과값으로 받을 데이터 타입 json으로 설정
+            cache   : false,
+            success  : function(result, status){    // 성공시 처리
+                alert("주문이 완료 되었습니다.");
+                location.href='/shop';
+            },
+            error : function(jqXHR, status, error){ // 오류 발생 예외 처리
+
+                if(jqXHR.status == '401'){          // 401 에러는 권한이 없으니 로그인하라고 보냄(시간 초과등.)
+                    alert('로그인 후 이용해주세요');
+                    location.href='/member/login';
+                } else{
+                    alert(jqXHR.responseText);
+                }
+
+            }
+        });
+    }
+
+    function addCart(){
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        var url = "/cart";
+        var paramData = {
+            itemId : $(".modal-title").text(),
+            count : $(".count").val()
+        };
+
+        var param = JSON.stringify(paramData);
+
+        $.ajax({
+            url      : url,
+            type     : "POST",
+            contentType : "application/json",
+            data     : param,
+            beforeSend : function(xhr){
+                /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+                xhr.setRequestHeader(header, token);
+            },
+            dataType : "json",
+            cache   : false,
+            success  : function(result, status){
+                alert("상품을 장바구니에 담았습니다.");
+                location.href='/shop';
+            },
+            error : function(jqXHR, status, error){
+
+                if(jqXHR.status == '401'){
+                    alert('로그인 후 이용해주세요');
+                    location.href='/member/login';
+                } else {
+                    alert(jqXHR.responseText);
+                }
+
+            }
+        });
+    }
+
+    //ajax, 모달 등등
+    $(document).ready(function(){
+
+        // count 값이 변경될 때마다 totalPrice 업데이트
+        $(".pro-qty").click(function() {
+            var count = $(".count").val();
+            var price = $(".product__details__price").text().replace("원", "").trim();
+            var totalPrice = price * count;
+            $(".totalPrice").html("최종 결제 금액 : " + totalPrice + " 원");
+        });
+
+
+        // 상세정보 모달창 열기
+        $(".product__item__pic").click(function() {
+
+            var itemId = $(this).data("item-id");  //클릭한 상품의 id값
+
+            var paramData = { itemId: itemId }; // itemId를 paramData에 추가
+            //var param = JSON.stringify(paramData); // paramData를 JSON 문자열로 변환하여 서버에 전송
+            // 서버에 보낼 주문 데이터를 JSON으로 변환
+            // AJAX 주문 로직을 비동기 방식으로 호출(새로고침 없이 필요한 부분만 불러와 사용)
+            $.ajax({
+                url      : "/item/dtl",
+                type     : "GET",
+                contentType : "application/json",   // 서버에 보낼 형식을 JSON으로 지정
+                data     : paramData,
+                dataType : "json",                  // 결과값으로 받을 데이터 타입 json으로 설정
+                cache   : false,
+                success  : function(result) {    // 성공시 처리
+                    var item = result.item;
+                    var review = result.review;
+                    $(".product__details__pic__item--large").attr("src", item.itemImgDtoList[0].imgUrl);
+                    // 이미지를 반복하여 추가
+                    var imageContainer = $(".product__details__pic__slider");
+                    var imageDescription = $(".products_description");
+                    imageContainer.empty(); // 기존에 추가된 이미지를 모두 지우고 새로 추가
+                    imageDescription.empty(); // 기존에 추가된 이미지를 모두 지우고 새로 추가
+                    item.itemImgDtoList.forEach(function(image) {
+                        // 이미지가 있을 경우에만 추가
+                        if (image.imgUrl) {
+                            // 이미지를 생성하여 컨테이너에 추가
+                            var imgElement = $("<img>").attr("data-imgbigurl", image.imgUrl).attr("src", image.imgUrl)
+                                .css({ "width": "110px", "height": "auto" });
+                            imageContainer.append(imgElement);
+                            var imgElement2 = $("<img>").attr("data-imgbigurl", image.imgUrl).attr("src", image.imgUrl);
+                            imageDescription.append(imgElement2);
+                            imgElement.click(function() {
+                                $(".product__details__pic__item--large").attr("src", image.imgUrl);
+                            });
+                        }
+                    });
+                    // Product 정보 업데이트
+                    $(".modal-title").text(item.id);
+                    $(".product__details__name").text(item.itemNm);
+                    $(".product__details__price").text(item.price + " 원");
+                    $(".totalPrice").text("최종 결제 금액 : " + item.price + " 원");
+                    $(".product__details__content").text(item.itemDetail);
+                    $(".product__details__category").text(item.category);
+                    $(".product__details__color").text(item.color);
+                    $(".product__details__size").text(item.size);
+                    $(".product__details__stockNumber").text(item.stockNumber);
+
+                    // 판매 상태 표시
+                    if (item.itemSellStatus === "SELL") {
+                        $(".product__details__sellStatus").html('<span class="badge badge-primary mgb-15">판매 중</span>');
+                    } else {
+                        $(".product__details__sellStatus").html('<span class="badge btn-danger mgb-15">품 절</span>');
+                    }
+
+                    //리뷰 설정
+                    $(".product__details__rating").empty(); // 이전에 추가된 별표시를 지웁니다.
+                    var reviewContainer = $(".reviews");
+                    reviewContainer.empty();
+                    // 별점 설정에 필요한 클래스명들
+                    var fullStarClass = 'fa fa-star';
+                    var halfStarClass = 'fa fa-star-half-o';
+                    var emptyStarClass = 'fa fa-star-o empty';
+                    if (review.length > 0) {
+                        var ratingValue = review[0].starAvg; // 서버에서 받은 평균 별점 값
+                        var roundedRating = Math.floor(ratingValue); // 정수 부분만 가져옴
+                        var decimalPart = ratingValue - roundedRating; // 소수 부분을 구함
+                        var hasHalfStar = decimalPart >= 0.5; // 반 별 표시 여부
+                        // 별표시를 조정하여 설정
+                        for (var i = 0; i < roundedRating; i++) {
+                            $(".product__details__rating").append('<i class="' + fullStarClass + '"></i>'); // 꽉 찬 별 추가
+                        }
+                        if (hasHalfStar) {
+                            $(".product__details__rating").append('<i class="' + halfStarClass + '"></i>'); // 반 별 추가
+                        }
+                        var emptyStars = 5 - roundedRating - (hasHalfStar ? 1 : 0); // 빈 별 개수
+                        for (var j = 0; j < emptyStars; j++) {
+                            $(".product__details__rating").append('<i class="' + emptyStarClass + '"></i>'); // 빈 별 추가
+                        }
+
+                        $(".starCount").text(ratingValue.toFixed(1) + "  (" + review.length + " reviews)");
+                        $(".productReview").text("Products Reviews - 상품 리뷰 (" + review.length + ")");
+
+                        // 각 리뷰를 순회하며 HTML을 생성하여 리뷰 목록에 추가
+                        review.forEach(function(reviewItem) {
+                            var reviewHTML = '<li style="padding: 15px; margin-bottom: 30px; background-color: #f1f8ff; border-radius: 20px;">' +
+                                '<div class="review-heading">' +
+                                '<h5 class="name" style="font-family: \'SansFont\', sans-serif; display: inline-block; margin-right: 20px;">' + reviewItem.createdBy + '</h5>' +
+                                '<p class="date" style="font-family: \'SansLightFont\', sans-serif; display: inline-block; margin-bottom: 0px; font-size: 12px;">' + reviewItem.regTime + '</p>' +
+                                '<div class="review-rating" style="color: #edbb0e;">';
+
+                            // 별점 표시
+                            var fullStars = reviewItem.star; // 정수 부분만 가져옴
+                            var emptyStars = 5 - fullStars; // 빈 별 개수
+
+                            for (var i = 0; i < fullStars; i++) {
+                                reviewHTML += '<i class="' + fullStarClass + '"></i>'; // 꽉 찬 별 추가
+                            }
+                            for (var j = 0; j < emptyStars; j++) {
+                                reviewHTML += '<i class="' + emptyStarClass + '"></i>'; // 빈 별 추가
+                            }
+
+                            reviewHTML += '</div>' +
+                                '</div>' +
+                                '<div class="review-body">' +
+                                '<p style="margin-bottom: 10px;">' + reviewItem.content + '</p>' +
+                                '</div>' +
+                                '</li>';
+
+                            // 생성한 리뷰 HTML을 리뷰 목록에 추가
+                            reviewContainer.append(reviewHTML);
+                        });
+                    } else {
+                        $(".starCount").text("0.0  (0 reviews)");
+                        for (var k = 0; k < 5; k++) {
+                            $(".product__details__rating").append('<i class="' + emptyStarClass + '"></i>'); // 빈 별 추가
+                            $(".productReview").text("Products Reviews - 상품 리뷰 ( 현재 리뷰가 존재하지 않습니다. )");
+                        }
+                    }
+
+                    $(".modal").modal("show"); // 모달 창을 보이도록 설정
+                }
+            });
+
+        });
+
+        // 모달이 열릴 때마다 모달 특정 값 초기화
+        $(".modal").on("shown.bs.modal", function () {
+            $('a[data-toggle="tab"][href="#tabs-1"]').tab('show');
+            $(".pro-qty input[type='text']").val("1");
+        });
+
+
+
+
+
+    });
+
+
+    //검색 조건 등등
+    $(document).ready(function(){
+
+        // 선택된 사이즈를 담을 배열
+        var selectedSizes = [];
+        // 사이즈 인풋 박스를 클릭했을 때 토글 동작
+        $(".size-toggle").click(function() {
+            var sizeId = $(this).attr("id"); // 클릭된 사이즈의 ID
+
+            // 선택된 사이즈 배열에 이미 있는지 확인
+            var index = selectedSizes.indexOf(sizeId);
+
+            // 이미 선택된 사이즈일 경우 배열에서 제거하고 글자색 초기화
+            if (index !== -1) {
+                selectedSizes.splice(index, 1);
+                $(this).css("color", "initial"); // 사이즈 선택 취소될 때 기본 글자색으로 변경
+            } else { // 선택되지 않은 사이즈일 경우 배열에 추가하고 글자색 변경
+                selectedSizes.push(sizeId);
+                $(this).css("color", "red"); // 사이즈 선택될 때 글자색을 변경
+            }
+        });
+
+        // 선택된 색상을 담을 배열
+        var selectedColors = [];
+        $(".color-toggle").click(function() {
+            var colorId = $(this).attr("id");
+
+            var index = selectedColors.indexOf(colorId);
+
+            if (index !== -1) {
+                selectedColors.splice(index, 1);
+                $(this).css("color", "initial");
+            } else {
+                selectedColors.push(colorId);
+                $(this).css("color", "red");
+            }
+        });
+
+        // 선택된 카테고리를 담을 배열
+        var selectedCates = [];
+        $(".category-toggle").click(function() {
+            var cateId = $(this).attr("id");
+
+            var index = selectedCates.indexOf(cateId);
+
+            if (index !== -1) {
+                selectedCates.splice(index, 1);
+                $(this).css("color", "initial");
+            } else {
+                selectedCates.push(cateId);
+                $(this).css("color", "red");
+            }
+        });
+
+
+        // URL에서 파라미터 값을 읽어와서 입력란에 채우기
+        function populatePriceRangeFromUrlParams() {
+            var urlParams = new URLSearchParams(window.location.search);
+
+            var minPrice = urlParams.get('minPrice');
+            var maxPrice = urlParams.get('maxPrice');
+            if (minPrice !== null && maxPrice !== null) {
+                $("#minamount").val(minPrice);
+                $("#maxamount").val(maxPrice);
+                $(".price-range").slider("values", [minPrice, maxPrice]);
+            }
+
+            var sizesParam = urlParams.get('sizes');
+            if (sizesParam) {
+                selectedSizes = sizesParam.split(',');
+                // 선택된 사이즈에 따라 UI 업데이트
+                $(".size-toggle").each(function() {
+                    var sizeId = $(this).attr("id");
+                    if (selectedSizes.includes(sizeId)) {
+                        $(this).css("color", "red");
+                    } else {
+                        $(this).css("color", "initial");
+                    }
+                });
+            }
+
+            var colorsParam = urlParams.get('colors');
+            if (colorsParam) {
+                selectedColors = colorsParam.split(',');
+                $(".color-toggle").each(function() {
+                    var colorId = $(this).attr("id");
+                    if (selectedColors.includes(colorId)) {
+                        $(this).css("color", "red");
+                    } else {
+                        $(this).css("color", "initial");
+                    }
+                });
+            }
+
+            var catesParam = urlParams.get('cates');
+            if (catesParam) {
+                selectedCates = catesParam.split(',');
+                $(".category-toggle").each(function() {
+                    var cateId = $(this).attr("id");
+                    if (selectedCates.includes(cateId)) {
+                        $(this).css("color", "red");
+                    } else {
+                        $(this).css("color", "initial");
+                    }
+                });
+            }
+
+        }
+        // 슬라이더 초기화
+        $(".price-range").slider({
+            range: true, // 범위 선택 가능
+            min: 0, // 최소값
+            max: 100000, // 최대값
+            values: [0, 100000], // 초기 범위 설정
+            slide: function(event, ui) {
+                // 슬라이더 이동할 때마다 최소값과 최대값 업데이트
+                $("#minamount").val(ui.values[0]);
+                $("#maxamount").val(ui.values[1]);
+            }
+        });
+        // 초기 값을 입력란에 표시
+        $("#minamount").val($(".price-range").slider("values", 0));
+        $("#maxamount").val($(".price-range").slider("values", 1));
+
+        // 페이지 로드 시 URL 파라미터로부터 최소 및 최대 가격 값 채우기
+        populatePriceRangeFromUrlParams();
+
+        //검색버튼
+        $("#searchBtn").on("click",function(e) {
+            e.preventDefault();
+
+            var minPrice = $("#minamount").val();
+            var maxPrice = $("#maxamount").val();
+
+            page(0, minPrice, maxPrice, selectedSizes, selectedColors, selectedCates);
+        });
+
+
+    });
+
+    function page(page, minPrice, maxPrice, selectedSizes, selectedColors, selectedCates){
+        var searchDateType = $("#searchDateType").val();
+        var searchSellStatus = $("#searchSellStatus").val();
+        var searchQuery = $("#searchQuery").val();
+
+        // 페이지 번호 눌렀을때 검색조건을 URL에서 파라미터 값 읽어와서 입력란에 채우기
+        var urlParams = new URLSearchParams(window.location.search);
+        if (!selectedSizes) { selectedSizes = urlParams.has('sizes') ? urlParams.get('sizes').split(',') : []; }
+        if (!selectedColors) { selectedColors = urlParams.has('colors') ? urlParams.get('colors').split(',') : []; }
+        if (!selectedCates) { selectedCates = urlParams.has('cates') ? urlParams.get('cates').split(',') : []; }
+        if (!minPrice) { minPrice = urlParams.has('minPrice') ? urlParams.get('minPrice') : $("#minamount").val(); }
+        if (!maxPrice) { maxPrice = urlParams.has('maxPrice') ? urlParams.get('maxPrice') : $("#maxamount").val(); }
+
+        location.href="/shop/" + page + "?searchDateType=" + searchDateType
+            + "&searchSellStatus=" + searchSellStatus
+            + "&searchQuery=" + searchQuery
+            + "&minPrice=" + minPrice
+            + "&maxPrice=" + maxPrice
+            + "&sizes=" + selectedSizes.join(",")
+            + "&colors=" + selectedColors.join(",")
+            + "&cates=" + selectedCates.join(",")
+
+    }
+
+</script>
+
+
+</html>
